@@ -13,7 +13,7 @@
     <meta name="language" content="zh-CN">
     <link rel="canonical" href="https://meiguhuli.com/">
 
-    <!-- Open Graph (Facebook / 微信 / 其他社交平台) -->
+    <!-- Open Graph / Twitter Card -->
     <meta property="og:title" content="美股狐狸 | Reddit 实时股票热度榜">
     <meta property="og:description" content="过去24小时Reddit上最火的美股实时热度榜单，每5分钟自动更新。查看哪些股票被疯狂讨论，追踪提及次数、24h变化和点赞数。">
     <meta property="og:type" content="website">
@@ -24,13 +24,11 @@
     <meta property="og:image:height" content="512">
     <meta property="og:locale" content="zh_CN">
 
-    <!-- Twitter Card (X平台) -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="美股狐狸 | Reddit 实时股票热度榜">
     <meta name="twitter:description" content="Reddit上过去24小时最热的 美股实时热度榜 · 每5分钟更新">
     <meta name="twitter:image" content="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f98a.svg">
 
-    <!-- 其他SEO友好标签 -->
     <link rel="icon" type="image/svg+xml" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f98a.svg">
     <link rel="apple-touch-icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f98a.svg">
     <meta name="theme-color" content="#10b981">
@@ -42,22 +40,29 @@
         table { border-collapse: collapse; }
         tr:hover { background-color: #1f2937; }
         
-        /* 排序双箭头样式 */
+        /* 表头优化：强制单行 + 更好间距 */
+        th {
+            white-space: nowrap !important;
+            vertical-align: middle;
+        }
+        
+        /* 排序双箭头样式（更紧凑、更明显） */
         .sort-icons {
             display: inline-flex;
             flex-direction: column;
-            font-size: 10px;
+            font-size: 9px;
             line-height: 1;
-            margin-left: 4px;
+            margin-left: 3px;
             vertical-align: middle;
         }
         .sort-arrow {
-            opacity: 0.4;
+            opacity: 0.35;
             transition: all 0.2s ease;
         }
         .sort-active {
-            opacity: 1;
+            opacity: 1 !important;
             color: #10b981 !important;
+            text-shadow: 0 0 3px #10b981;
         }
     </style>
 </head>
@@ -92,19 +97,19 @@
                    class="w-full bg-gray-900 border border-gray-700 rounded-3xl px-6 py-4 text-base sm:text-lg focus:outline-none focus:border-emerald-500 transition">
         </div>
 
-        <!-- 数据表格 -->
+        <!-- 数据表格 - 加大最小宽度 + 优化间距 -->
         <div class="bg-gray-900 rounded-3xl overflow-hidden border border-gray-800">
             <div class="overflow-x-auto">
-                <table class="w-full min-w-[720px]">
+                <table class="w-full min-w-[850px]">
                     <thead>
                         <tr class="border-b border-gray-800 text-emerald-400 text-left text-sm">
-                            <th class="px-4 sm:px-8 py-5 font-medium whitespace-nowrap">排名</th>
-                            <th class="px-4 sm:px-8 py-5 font-medium whitespace-nowrap">股票名称</th>
-                            <th class="px-4 sm:px-8 py-5 font-medium whitespace-nowrap">代码</th>
+                            <th class="px-4 sm:px-6 py-5 font-medium whitespace-nowrap">排名</th>
+                            <th class="px-4 sm:px-6 py-5 font-medium whitespace-nowrap">股票名称</th>
+                            <th class="px-4 sm:px-6 py-5 font-medium whitespace-nowrap">代码</th>
                             
                             <!-- 提及次数 -->
                             <th onclick="toggleSort('mentions')" 
-                                class="px-4 sm:px-8 py-5 font-medium whitespace-nowrap text-right cursor-pointer hover:text-emerald-300 transition flex items-center justify-end gap-1">
+                                class="px-6 sm:px-8 py-5 font-medium whitespace-nowrap text-right cursor-pointer hover:text-emerald-300 transition flex items-center justify-end gap-1">
                                 提及次数
                                 <span class="sort-icons">
                                     <span id="mentions-up" class="sort-arrow">▲</span>
@@ -114,7 +119,7 @@
                             
                             <!-- 24h 变化 -->
                             <th onclick="toggleSort('change')" 
-                                class="px-4 sm:px-8 py-5 font-medium whitespace-nowrap text-right cursor-pointer hover:text-emerald-300 transition flex items-center justify-end gap-1">
+                                class="px-6 sm:px-8 py-5 font-medium whitespace-nowrap text-right cursor-pointer hover:text-emerald-300 transition flex items-center justify-end gap-1">
                                 24h 变化
                                 <span class="sort-icons">
                                     <span id="change-up" class="sort-arrow">▲</span>
@@ -124,7 +129,7 @@
                             
                             <!-- 点赞数 -->
                             <th onclick="toggleSort('upvotes')" 
-                                class="px-4 sm:px-8 py-5 font-medium whitespace-nowrap text-right cursor-pointer hover:text-emerald-300 transition flex items-center justify-end gap-1">
+                                class="px-6 sm:px-8 py-5 font-medium whitespace-nowrap text-right cursor-pointer hover:text-emerald-300 transition flex items-center justify-end gap-1">
                                 点赞数
                                 <span class="sort-icons">
                                     <span id="upvotes-up" class="sort-arrow">▲</span>
@@ -132,7 +137,7 @@
                                 </span>
                             </th>
                             
-                            <th class="px-4 sm:px-8 py-5 font-medium whitespace-nowrap text-center">操作</th>
+                            <th class="px-4 sm:px-6 py-5 font-medium whitespace-nowrap text-center">操作</th>
                         </tr>
                     </thead>
                     <tbody id="stockTable" class="text-sm"></tbody>
@@ -173,9 +178,8 @@
         let currentPage = 1;
         const itemsPerPage = 100;
 
-        // ==================== 排序状态 ====================
-        let sortColumn = 'mentions';   // 默认按提及次数排序
-        let sortDirection = 'desc';    // 默认降序
+        let sortColumn = 'mentions';
+        let sortDirection = 'desc';
 
         function calcChange(current, previous) {
             if (!previous || previous === 0 || previous === null) {
@@ -186,11 +190,10 @@
             return { value: (change > 0 ? '+' : '') + change.toFixed(0) + '%', color };
         }
 
-        // ==================== 更新排序图标 ====================
         function updateSortIcons() {
             document.querySelectorAll('.sort-arrow').forEach(el => {
                 el.classList.remove('sort-active');
-                el.style.opacity = '0.4';
+                el.style.opacity = '0.35';
             });
 
             if (!sortColumn) return;
@@ -210,7 +213,6 @@
                 sortColumn = column;
                 sortDirection = 'desc';
             }
-            
             updateSortIcons();
             performSort();
             renderTableAndPagination();
@@ -225,17 +227,12 @@
                 if (sortColumn === 'mentions') {
                     valA = Number(a.mentions) || 0;
                     valB = Number(b.mentions) || 0;
-                } 
-                else if (sortColumn === 'upvotes') {
+                } else if (sortColumn === 'upvotes') {
                     valA = Number(a.upvotes) || 0;
                     valB = Number(b.upvotes) || 0;
-                } 
-                else if (sortColumn === 'change') {
-                    // 【已修复】新上榜统一视为 0% 进行排序
+                } else if (sortColumn === 'change') {
                     const getChangeValue = (stock) => {
-                        if (!stock.mentions_24h_ago || stock.mentions_24h_ago <= 0) {
-                            return 0;                    // 新上榜当作 0%
-                        }
+                        if (!stock.mentions_24h_ago || stock.mentions_24h_ago <= 0) return 0;
                         return ((stock.mentions - stock.mentions_24h_ago) / stock.mentions_24h_ago) * 100;
                     };
                     valA = getChangeValue(a);
@@ -260,13 +257,13 @@
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-800 last:border-none hover:bg-gray-800 transition';
                 row.innerHTML = `
-                    <td class="px-4 sm:px-8 py-5 font-mono text-base">${stock.rank}</td>
-                    <td class="px-4 sm:px-8 py-5 font-medium text-base">${stock.name}</td>
-                    <td class="px-4 sm:px-8 py-5 font-mono text-emerald-400 text-base">${stock.ticker}</td>
-                    <td class="px-4 sm:px-8 py-5 text-right font-medium">${parseInt(stock.mentions).toLocaleString()}</td>
-                    <td class="px-4 sm:px-8 py-5 text-right font-medium ${change.color}">${change.value}</td>
-                    <td class="px-4 sm:px-8 py-5 text-right font-medium">${parseInt(stock.upvotes).toLocaleString()}</td>
-                    <td class="px-4 sm:px-8 py-5 text-center">
+                    <td class="px-4 sm:px-6 py-5 font-mono text-base">${stock.rank}</td>
+                    <td class="px-4 sm:px-6 py-5 font-medium text-base">${stock.name}</td>
+                    <td class="px-4 sm:px-6 py-5 font-mono text-emerald-400 text-base">${stock.ticker}</td>
+                    <td class="px-6 sm:px-8 py-5 text-right font-medium">${parseInt(stock.mentions).toLocaleString()}</td>
+                    <td class="px-6 sm:px-8 py-5 text-right font-medium ${change.color}">${change.value}</td>
+                    <td class="px-6 sm:px-8 py-5 text-right font-medium">${parseInt(stock.upvotes).toLocaleString()}</td>
+                    <td class="px-4 sm:px-6 py-5 text-center">
                         <a href="https://interactivebrokers.com/mkt/?src=usstokX&url=%2Fcn%2Fwhyib%2Foverview.php" 
                            target="_blank"
                            class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 sm:px-6 py-2.5 rounded-2xl text-sm font-medium transition whitespace-nowrap">
@@ -287,9 +284,7 @@
                 return;
             }
 
-            let pagesHtml = '';
-
-            pagesHtml += `<button onclick="goToPage(${currentPage - 1})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition text-sm font-medium ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentPage === 1 ? 'disabled' : ''}>上一页</button>`;
+            let pagesHtml = `<button onclick="goToPage(${currentPage - 1})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition text-sm font-medium ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentPage === 1 ? 'disabled' : ''}>上一页</button>`;
 
             if (totalPages <= 8) {
                 for (let i = 1; i <= totalPages; i++) {
@@ -298,11 +293,10 @@
                         : `<button onclick="goToPage(${i})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition min-w-[40px]">${i}</button>`;
                 }
             } else {
+                // 省略逻辑保持不变
                 if (currentPage === 1) pagesHtml += `<button class="px-4 py-2.5 rounded-2xl bg-emerald-500 text-white font-medium min-w-[40px]">1</button>`;
                 else pagesHtml += `<button onclick="goToPage(1)" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition min-w-[40px]">1</button>`;
-
                 if (currentPage > 4) pagesHtml += `<span class="px-2 text-gray-500 font-medium">...</span>`;
-
                 const startPage = Math.max(2, currentPage - 2);
                 const endPage = Math.min(totalPages - 1, currentPage + 2);
                 for (let i = startPage; i <= endPage; i++) {
@@ -310,9 +304,7 @@
                         ? `<button onclick="goToPage(${i})" class="px-4 py-2.5 rounded-2xl bg-emerald-500 text-white font-medium min-w-[40px]">${i}</button>` 
                         : `<button onclick="goToPage(${i})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition min-w-[40px]">${i}</button>`;
                 }
-
                 if (currentPage < totalPages - 3) pagesHtml += `<span class="px-2 text-gray-500 font-medium">...</span>`;
-
                 if (currentPage === totalPages) pagesHtml += `<button class="px-4 py-2.5 rounded-2xl bg-emerald-500 text-white font-medium min-w-[40px]">${totalPages}</button>`;
                 else pagesHtml += `<button onclick="goToPage(${totalPages})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition min-w-[40px]">${totalPages}</button>`;
             }
