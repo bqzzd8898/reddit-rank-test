@@ -40,13 +40,13 @@
         table { border-collapse: collapse; }
         tr:hover { background-color: #1f2937; }
         
-        /* 表头优化：强制单行 + 更好间距 */
+        /* 强制表头单行 + 优化间距 */
         th {
             white-space: nowrap !important;
             vertical-align: middle;
         }
         
-        /* 排序双箭头样式（更紧凑、更明显） */
+        /* 排序双箭头样式 */
         .sort-icons {
             display: inline-flex;
             flex-direction: column;
@@ -97,10 +97,10 @@
                    class="w-full bg-gray-900 border border-gray-700 rounded-3xl px-6 py-4 text-base sm:text-lg focus:outline-none focus:border-emerald-500 transition">
         </div>
 
-        <!-- 数据表格 - 加大最小宽度 + 优化间距 -->
+        <!-- 数据表格 - 进一步加大宽度确保表头不换行 -->
         <div class="bg-gray-900 rounded-3xl overflow-hidden border border-gray-800">
             <div class="overflow-x-auto">
-                <table class="w-full min-w-[850px]">
+                <table class="w-full min-w-[920px]">
                     <thead>
                         <tr class="border-b border-gray-800 text-emerald-400 text-left text-sm">
                             <th class="px-4 sm:px-6 py-5 font-medium whitespace-nowrap">排名</th>
@@ -117,10 +117,10 @@
                                 </span>
                             </th>
                             
-                            <!-- 24h 变化 -->
+                            <!-- 24h 提及变化（已修改文字） -->
                             <th onclick="toggleSort('change')" 
                                 class="px-6 sm:px-8 py-5 font-medium whitespace-nowrap text-right cursor-pointer hover:text-emerald-300 transition flex items-center justify-end gap-1">
-                                24h 变化
+                                24h 提及变化
                                 <span class="sort-icons">
                                     <span id="change-up" class="sort-arrow">▲</span>
                                     <span id="change-down" class="sort-arrow">▼</span>
@@ -293,7 +293,6 @@
                         : `<button onclick="goToPage(${i})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition min-w-[40px]">${i}</button>`;
                 }
             } else {
-                // 省略逻辑保持不变
                 if (currentPage === 1) pagesHtml += `<button class="px-4 py-2.5 rounded-2xl bg-emerald-500 text-white font-medium min-w-[40px]">1</button>`;
                 else pagesHtml += `<button onclick="goToPage(1)" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition min-w-[40px]">1</button>`;
                 if (currentPage > 4) pagesHtml += `<span class="px-2 text-gray-500 font-medium">...</span>`;
