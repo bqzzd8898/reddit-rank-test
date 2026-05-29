@@ -6,14 +6,14 @@
     <title>美股狐狸 | Reddit 实时股票热度榜</title>
     
     <!-- ========== SEO 核心 Meta Tags ========== -->
-    <meta name="description" content="美股狐狸 | Reddit 实时股票热度榜 - 追踪过去24小时Reddit上提及次数最多的美股。实时更新股票排名、提及次数、24h变化、点赞数，每5分钟自动刷新。">
+    <meta name="description" content="美股狐狸 | Reddit 实时股票热度榜 - 追踪过去24小时Reddit上提及次数最多的美股。实时更新股票排名、提及次数、24h变化、点赞数，每5分钟自动刷新。热门美股讨论热度一览无余（NVDA、TSLA、MU等）">
     <meta name="keywords" content="美股狐狸, Reddit股票, 美股热度榜, 股票实时榜单, Reddit WallStreetBets, 股票提及次数, 美股讨论热度, NVDA热度, TSLA, 美股实时数据, 24h股票变化">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="author" content="美股狐狸">
     <meta name="language" content="zh-CN">
     <link rel="canonical" href="https://meiguhuli.com/">
 
-    <!-- Open Graph / Twitter Card -->
+    <!-- Open Graph (Facebook / 微信 / 其他社交平台) -->
     <meta property="og:title" content="美股狐狸 | Reddit 实时股票热度榜">
     <meta property="og:description" content="过去24小时Reddit上最火的美股实时热度榜单，每5分钟自动更新。查看哪些股票被疯狂讨论，追踪提及次数、24h变化和点赞数。">
     <meta property="og:type" content="website">
@@ -24,14 +24,47 @@
     <meta property="og:image:height" content="512">
     <meta property="og:locale" content="zh_CN">
 
+    <!-- Twitter Card (X平台) -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="美股狐狸 | Reddit 实时股票热度榜">
     <meta name="twitter:description" content="Reddit上过去24小时最热的 美股实时热度榜 · 每5分钟更新">
     <meta name="twitter:image" content="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f98a.svg">
 
+    <!-- 其他SEO友好标签 -->
     <link rel="icon" type="image/svg+xml" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f98a.svg">
     <link rel="apple-touch-icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f98a.svg">
     <meta name="theme-color" content="#10b981">
+
+    <!-- Structured Data (JSON-LD) - 帮助搜索引擎理解页面内容 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "美股狐狸 | Reddit 实时股票热度榜",
+      "description": "过去24小时Reddit上提及次数最多的美股实时热度榜单，每5分钟自动更新。",
+      "url": "https://meiguhuli.com/",
+      "inLanguage": "zh-CN",
+      "mainEntity": {
+        "@type": "ItemList",
+        "name": "Reddit实时股票热度榜",
+        "description": "根据过去24小时Reddit讨论量排序的美股榜单",
+        "numberOfItems": 100
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "美股狐狸",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f98a.svg"
+        }
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://meiguhuli.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -40,34 +73,34 @@
         table { border-collapse: collapse; }
         tr:hover { background-color: #1f2937; }
         
-        /* 强制表头单行 + 关键修复 */
-        th {
-            white-space: nowrap !important;
-            vertical-align: middle;
-            overflow: hidden;
+        .sortable {
+            cursor: pointer;
+            user-select: none;
         }
-        
-        /* 排序双箭头样式 */
-        .sort-icons {
+        .sortable:hover {
+            color: #10b981;
+        }
+        .sort-icon {
             display: inline-flex;
             flex-direction: column;
-            font-size: 9px;
-            line-height: 1;
-            margin-left: 3px;
-            vertical-align: middle;
+            font-size: 0.85em;
+            margin-left: 4px;
+            opacity: 0.5;
         }
-        .sort-arrow {
-            opacity: 0.35;
-            transition: all 0.2s ease;
+        .sortable.active .sort-icon {
+            opacity: 1;
+            color: #10b981;
         }
-        .sort-active {
-            opacity: 1 !important;
-            color: #10b981 !important;
-            text-shadow: 0 0 3px #10b981;
+        .th-content {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
         }
     </style>
 </head>
 <body class="bg-gray-950 text-gray-100 min-h-screen">
+    <!-- 以下内容与您原来完全一致，未做任何修改（仅表头和JS部分优化） -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <!-- 头部 -->
         <div class="flex justify-between items-center mb-8 sm:mb-10">
@@ -98,47 +131,41 @@
                    class="w-full bg-gray-900 border border-gray-700 rounded-3xl px-6 py-4 text-base sm:text-lg focus:outline-none focus:border-emerald-500 transition">
         </div>
 
-        <!-- 数据表格 - 关键修复：大幅增加最小宽度，确保三个标题横向排列 -->
+        <!-- 数据表格 -->
         <div class="bg-gray-900 rounded-3xl overflow-hidden border border-gray-800">
             <div class="overflow-x-auto">
-                <table class="w-full min-w-[1050px]">
+                <table class="w-full min-w-[680px]">
                     <thead>
                         <tr class="border-b border-gray-800 text-emerald-400 text-left text-sm">
-                            <th class="px-4 sm:px-6 py-5 font-medium whitespace-nowrap">排名</th>
-                            <th class="px-4 sm:px-6 py-5 font-medium whitespace-nowrap">股票名称</th>
-                            <th class="px-4 sm:px-6 py-5 font-medium whitespace-nowrap">代码</th>
+                            <th class="px-4 sm:px-8 py-4 sm:py-5 font-medium whitespace-nowrap">排名</th>
+                            <th class="px-4 sm:px-8 py-4 sm:py-5 font-medium whitespace-nowrap">股票名称</th>
+                            <th class="px-4 sm:px-8 py-4 sm:py-5 font-medium whitespace-nowrap">代码</th>
                             
-                            <!-- 提及次数 -->
-                            <th onclick="toggleSort('mentions')" 
-                                class="px-6 sm:px-8 py-5 font-medium whitespace-nowrap text-right cursor-pointer hover:text-emerald-300 transition flex items-center justify-end gap-1">
-                                提及次数
-                                <span class="sort-icons">
-                                    <span id="mentions-up" class="sort-arrow">▲</span>
-                                    <span id="mentions-down" class="sort-arrow">▼</span>
-                                </span>
+                            <!-- 提及次数（新增排序） -->
+                            <th class="px-4 sm:px-8 py-4 sm:py-5 font-medium whitespace-nowrap text-right sortable" data-key="mentions">
+                                <div class="th-content">
+                                    提及次数
+                                    <span class="sort-icon"><i class="fas fa-sort"></i></span>
+                                </div>
                             </th>
                             
-                            <!-- 24h 提及变化 -->
-                            <th onclick="toggleSort('change')" 
-                                class="px-6 sm:px-8 py-5 font-medium whitespace-nowrap text-right cursor-pointer hover:text-emerald-300 transition flex items-center justify-end gap-1">
-                                24h 提及变化
-                                <span class="sort-icons">
-                                    <span id="change-up" class="sort-arrow">▲</span>
-                                    <span id="change-down" class="sort-arrow">▼</span>
-                                </span>
+                            <!-- 24h 提及变化（已修改文字 + 新增排序） -->
+                            <th class="px-4 sm:px-8 py-4 sm:py-5 font-medium whitespace-nowrap text-right sortable" data-key="change">
+                                <div class="th-content">
+                                    24h 提及变化
+                                    <span class="sort-icon"><i class="fas fa-sort"></i></span>
+                                </div>
                             </th>
                             
-                            <!-- 点赞数 -->
-                            <th onclick="toggleSort('upvotes')" 
-                                class="px-6 sm:px-8 py-5 font-medium whitespace-nowrap text-right cursor-pointer hover:text-emerald-300 transition flex items-center justify-end gap-1">
-                                点赞数
-                                <span class="sort-icons">
-                                    <span id="upvotes-up" class="sort-arrow">▲</span>
-                                    <span id="upvotes-down" class="sort-arrow">▼</span>
-                                </span>
+                            <!-- 点赞数（新增排序） -->
+                            <th class="px-4 sm:px-8 py-4 sm:py-5 font-medium whitespace-nowrap text-right sortable" data-key="upvotes">
+                                <div class="th-content">
+                                    点赞数
+                                    <span class="sort-icon"><i class="fas fa-sort"></i></span>
+                                </div>
                             </th>
                             
-                            <th class="px-4 sm:px-6 py-5 font-medium whitespace-nowrap text-center">操作</th>
+                            <th class="px-4 sm:px-8 py-4 sm:py-5 font-medium whitespace-nowrap text-center">操作</th>
                         </tr>
                     </thead>
                     <tbody id="stockTable" class="text-sm"></tbody>
@@ -153,22 +180,27 @@
             每 5 分钟自动刷新一次
         </div>
 
-        <!-- 底部图标 -->
+        <!-- 最下方两个风格完全统一的 Tabler Icons -->
         <div class="flex justify-center items-center gap-10 mt-12 mb-8">
-            <a href="https://x.com/artinmemes" target="_blank"
+            <!-- X (brand-x) -->
+            <a href="https://x.com/artinmemes" 
+               target="_blank"
                class="w-14 h-14 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-3xl text-white transition-all hover:scale-110">
                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-x">
-                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                   <path d="M4 4l11.733 16h4.267l-11.733 -16l-4.267 0" />
-                   <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
-               </svg>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M4 4l11.733 16h4.267l-11.733 -16l-4.267 0" />
+    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+</svg>
             </a>
-            <a href="https://t.me/meiguhuli" target="_blank"
+
+            <!-- Telegram (brand-telegram) -->
+            <a href="https://t.me/meiguhuli" 
+               target="_blank"
                class="w-14 h-14 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-3xl text-white transition-all hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-telegram">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" />
-                </svg>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" />
+</svg>
             </a>
         </div>
     </div>
@@ -179,8 +211,11 @@
         let currentPage = 1;
         const itemsPerPage = 100;
 
-        let sortColumn = 'mentions';
-        let sortDirection = 'desc';
+        // 新增：排序配置（默认按提及次数降序）
+        let sortConfig = {
+            key: 'mentions',   // 'mentions' | 'change' | 'upvotes'
+            direction: 'desc'
+        };
 
         function calcChange(current, previous) {
             if (!previous || previous === 0 || previous === null) {
@@ -191,63 +226,39 @@
             return { value: (change > 0 ? '+' : '') + change.toFixed(0) + '%', color };
         }
 
-        function updateSortIcons() {
-            document.querySelectorAll('.sort-arrow').forEach(el => {
-                el.classList.remove('sort-active');
-                el.style.opacity = '0.35';
-            });
-
-            if (!sortColumn) return;
-
-            const prefix = sortColumn;
-            const upEl = document.getElementById(prefix + '-up');
-            const downEl = document.getElementById(prefix + '-down');
-
-            if (sortDirection === 'asc' && upEl) upEl.classList.add('sort-active');
-            if (sortDirection === 'desc' && downEl) downEl.classList.add('sort-active');
-        }
-
-        function toggleSort(column) {
-            if (sortColumn === column) {
-                sortDirection = sortDirection === 'desc' ? 'asc' : 'desc';
-            } else {
-                sortColumn = column;
-                sortDirection = 'desc';
+        // 计算用于排序的 changeRaw，新上榜视为0
+        function calculateChangeRaw(stock) {
+            if (!stock.mentions_24h_ago || stock.mentions_24h_ago === 0) {
+                return 0;
             }
-            updateSortIcons();
-            performSort();
-            renderTableAndPagination();
+            return ((stock.mentions - stock.mentions_24h_ago) / stock.mentions_24h_ago) * 100;
         }
 
-        function performSort() {
-            if (!sortColumn) return;
-
-            filteredStocks.sort((a, b) => {
+        function sortStocks(stocks) {
+            return [...stocks].sort((a, b) => {
                 let valA, valB;
 
-                if (sortColumn === 'mentions') {
+                if (sortConfig.key === 'mentions') {
                     valA = Number(a.mentions) || 0;
                     valB = Number(b.mentions) || 0;
-                } else if (sortColumn === 'upvotes') {
+                } else if (sortConfig.key === 'change') {
+                    valA = a.changeRaw !== undefined ? a.changeRaw : calculateChangeRaw(a);
+                    valB = b.changeRaw !== undefined ? b.changeRaw : calculateChangeRaw(b);
+                } else if (sortConfig.key === 'upvotes') {
                     valA = Number(a.upvotes) || 0;
                     valB = Number(b.upvotes) || 0;
-                } else if (sortColumn === 'change') {
-                    const getChangeValue = (stock) => {
-                        if (!stock.mentions_24h_ago || stock.mentions_24h_ago <= 0) return 0;
-                        return ((stock.mentions - stock.mentions_24h_ago) / stock.mentions_24h_ago) * 100;
-                    };
-                    valA = getChangeValue(a);
-                    valB = getChangeValue(b);
                 }
-                
-                if (valA === valB) return 0;
-                return sortDirection === 'desc' ? (valB - valA) : (valA - valB);
+
+                if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
+                if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
+                return 0;
             });
         }
 
         function getPaginatedStocks() {
+            const sorted = sortStocks(filteredStocks);
             const start = (currentPage - 1) * itemsPerPage;
-            return filteredStocks.slice(start, start + itemsPerPage);
+            return sorted.slice(start, start + itemsPerPage);
         }
 
         function renderTable(stocks) {
@@ -258,13 +269,13 @@
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-800 last:border-none hover:bg-gray-800 transition';
                 row.innerHTML = `
-                    <td class="px-4 sm:px-6 py-5 font-mono text-base">${stock.rank}</td>
-                    <td class="px-4 sm:px-6 py-5 font-medium text-base">${stock.name}</td>
-                    <td class="px-4 sm:px-6 py-5 font-mono text-emerald-400 text-base">${stock.ticker}</td>
-                    <td class="px-6 sm:px-8 py-5 text-right font-medium">${parseInt(stock.mentions).toLocaleString()}</td>
-                    <td class="px-6 sm:px-8 py-5 text-right font-medium ${change.color}">${change.value}</td>
-                    <td class="px-6 sm:px-8 py-5 text-right font-medium">${parseInt(stock.upvotes).toLocaleString()}</td>
-                    <td class="px-4 sm:px-6 py-5 text-center">
+                    <td class="px-4 sm:px-8 py-4 sm:py-5 font-mono text-base">${stock.rank}</td>
+                    <td class="px-4 sm:px-8 py-4 sm:py-5 font-medium text-base">${stock.name}</td>
+                    <td class="px-4 sm:px-8 py-4 sm:py-5 font-mono text-emerald-400 text-base">${stock.ticker}</td>
+                    <td class="px-4 sm:px-8 py-4 sm:py-5 text-right font-medium">${parseInt(stock.mentions).toLocaleString()}</td>
+                    <td class="px-4 sm:px-8 py-4 sm:py-5 text-right font-medium ${change.color}">${change.value}</td>
+                    <td class="px-4 sm:px-8 py-4 sm:py-5 text-right font-medium">${parseInt(stock.upvotes).toLocaleString()}</td>
+                    <td class="px-4 sm:px-8 py-4 sm:py-5 text-center">
                         <a href="https://interactivebrokers.com/mkt/?src=usstokX&url=%2Fcn%2Fwhyib%2Foverview.php" 
                            target="_blank"
                            class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 sm:px-6 py-2.5 rounded-2xl text-sm font-medium transition whitespace-nowrap">
@@ -277,6 +288,46 @@
             });
         }
 
+        function updateSortIndicators() {
+            document.querySelectorAll('.sortable').forEach(th => {
+                const key = th.getAttribute('data-key');
+                const iconContainer = th.querySelector('.sort-icon i');
+                
+                th.classList.remove('active');
+                
+                if (key === sortConfig.key) {
+                    th.classList.add('active');
+                    if (iconContainer) {
+                        if (sortConfig.direction === 'asc') {
+                            iconContainer.className = 'fas fa-sort-up';
+                        } else {
+                            iconContainer.className = 'fas fa-sort-down';
+                        }
+                    }
+                } else {
+                    if (iconContainer) {
+                        iconContainer.className = 'fas fa-sort';
+                    }
+                }
+            });
+        }
+
+        function handleSortClick(e) {
+            const th = e.currentTarget;
+            const key = th.getAttribute('data-key');
+            
+            if (sortConfig.key === key) {
+                // 切换方向
+                sortConfig.direction = sortConfig.direction === 'desc' ? 'asc' : 'desc';
+            } else {
+                sortConfig.key = key;
+                sortConfig.direction = 'desc'; // 默认降序（数值越大越靠前）
+            }
+            
+            updateSortIndicators();
+            renderTableAndPagination();
+        }
+
         function renderPagination() {
             const pagination = document.getElementById('pagination');
             const totalPages = Math.ceil(filteredStocks.length / itemsPerPage);
@@ -285,26 +336,36 @@
                 return;
             }
 
-            let pagesHtml = `<button onclick="goToPage(${currentPage - 1})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition text-sm font-medium ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentPage === 1 ? 'disabled' : ''}>上一页</button>`;
+            let pagesHtml = '';
+
+            pagesHtml += `<button onclick="goToPage(${currentPage - 1})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition text-sm font-medium ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentPage === 1 ? 'disabled' : ''}>上一页</button>`;
 
             if (totalPages <= 8) {
                 for (let i = 1; i <= totalPages; i++) {
-                    pagesHtml += i === currentPage 
-                        ? `<button onclick="goToPage(${i})" class="px-4 py-2.5 rounded-2xl bg-emerald-500 text-white font-medium min-w-[40px]">${i}</button>` 
-                        : `<button onclick="goToPage(${i})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition min-w-[40px]">${i}</button>`;
+                    if (i === currentPage) {
+                        pagesHtml += `<button onclick="goToPage(${i})" class="px-4 py-2.5 rounded-2xl bg-emerald-500 text-white font-medium min-w-[40px]">${i}</button>`;
+                    } else {
+                        pagesHtml += `<button onclick="goToPage(${i})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition min-w-[40px]">${i}</button>`;
+                    }
                 }
             } else {
                 if (currentPage === 1) pagesHtml += `<button class="px-4 py-2.5 rounded-2xl bg-emerald-500 text-white font-medium min-w-[40px]">1</button>`;
                 else pagesHtml += `<button onclick="goToPage(1)" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition min-w-[40px]">1</button>`;
+
                 if (currentPage > 4) pagesHtml += `<span class="px-2 text-gray-500 font-medium">...</span>`;
+
                 const startPage = Math.max(2, currentPage - 2);
                 const endPage = Math.min(totalPages - 1, currentPage + 2);
                 for (let i = startPage; i <= endPage; i++) {
-                    pagesHtml += i === currentPage 
-                        ? `<button onclick="goToPage(${i})" class="px-4 py-2.5 rounded-2xl bg-emerald-500 text-white font-medium min-w-[40px]">${i}</button>` 
-                        : `<button onclick="goToPage(${i})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition min-w-[40px]">${i}</button>`;
+                    if (i === currentPage) {
+                        pagesHtml += `<button onclick="goToPage(${i})" class="px-4 py-2.5 rounded-2xl bg-emerald-500 text-white font-medium min-w-[40px]">${i}</button>`;
+                    } else {
+                        pagesHtml += `<button onclick="goToPage(${i})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition min-w-[40px]">${i}</button>`;
+                    }
                 }
+
                 if (currentPage < totalPages - 3) pagesHtml += `<span class="px-2 text-gray-500 font-medium">...</span>`;
+
                 if (currentPage === totalPages) pagesHtml += `<button class="px-4 py-2.5 rounded-2xl bg-emerald-500 text-white font-medium min-w-[40px]">${totalPages}</button>`;
                 else pagesHtml += `<button onclick="goToPage(${totalPages})" class="px-4 py-2.5 rounded-2xl border border-gray-700 hover:bg-gray-800 transition min-w-[40px]">${totalPages}</button>`;
             }
@@ -336,19 +397,23 @@
         async function fetchData() {
             try {
                 const apiUrl = 'https://cache.meiguhuli.com';
+
                 const res = await fetch(apiUrl);
                 if (!res.ok) throw new Error('缓存请求失败');
                 
                 const data = await res.json();
                 
                 allStocks = data.results || [];
+                
+                // 为每条数据预计算 changeRaw（新上榜视为0）
+                allStocks.forEach(stock => {
+                    stock.changeRaw = calculateChangeRaw(stock);
+                });
+
                 filteredStocks = [...allStocks];
-                
-                performSort();
-                updateSortIcons();
-                
                 currentPage = 1;
                 renderTableAndPagination();
+                updateSortIndicators();
 
                 console.log(`✅ 缓存数据加载完成：${allStocks.length} 条`);
             } catch (e) {
@@ -368,15 +433,24 @@
                 );
             }
             currentPage = 1;
-            if (sortColumn) performSort();
-            updateSortIcons();
             renderTableAndPagination();
+            updateSortIndicators();
+        }
+
+        function refreshData() {
+            fetchData();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchData();
             const searchInput = document.getElementById('searchInput');
             searchInput.addEventListener('input', filterStocks);
+
+            // 绑定排序点击事件
+            document.querySelectorAll('.sortable').forEach(th => {
+                th.addEventListener('click', handleSortClick);
+            });
+
             setInterval(fetchData, 300000);
             tailwind.config = { content: ["./**/*.{html,js}"] };
         });
